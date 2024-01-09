@@ -15,7 +15,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // Create a variable for the url and name it file_url
     const file_url = body.url;
 
-
+    console.log(file_url)
 
     // Make a POST request to the Python backend
     const response = await fetch('https://patelchanakya--transcription-app-fastapi-app-dev.modal.run/transcribe', {
