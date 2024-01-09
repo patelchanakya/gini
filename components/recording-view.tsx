@@ -156,16 +156,15 @@ export default function RecordingView({ }: any) {
 
     return (
 
-
         <div className="flex flex-col items-center justify-center h-screen w-full">
-            <div className="flex items-center justify-center w-full">
+            <div className="flex items-center justify-center w-96 h-32">
                 {/* {!emailSubmitted ? (
                     <div className="flex w-full max-w-sm items-center space-x-2">
                         <Input ref={emailRef} type="email" placeholder="Email" />
                         <Button onClick={handleEmailSubmit} type="button">Start</Button>
                     </div>
                 ) : ( */}
-                <form>
+                <form className='w-full h-full justify-center flex '>
                     <AudioRecorder
                         onRecordingComplete={addAudioElement}
                         audioTrackConstraints={{
