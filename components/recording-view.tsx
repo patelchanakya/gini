@@ -23,6 +23,9 @@ export default function RecordingView({ }: any) {
     const [audioChunks, setAudioChunks] = useState<BlobPart[]>([]);
     const [file, setFile] = useState<string | undefined>();
     const [publicUrl, setPublicUrl] = useState<string | undefined>(undefined);
+    const [transcriptState, setTranscriptState] = useState<string>("Transcript will show here...");
+
+
 
 
     const supabaseUrl = 'https://orkxbxvmhaqqxanaamdj.supabase.co'
@@ -45,6 +48,7 @@ export default function RecordingView({ }: any) {
 
 
     const addAudioElement = useCallback(async (blob: any) => {
+        setTranscriptState("Processing Transcription... please come back :)")
         const url = URL.createObjectURL(blob);
         const audio = document.createElement("audio");
         audio.src = url;
@@ -102,6 +106,7 @@ export default function RecordingView({ }: any) {
                     return;
                 }
 
+                //   ***
                 // Make a POST request to the /api/transcribe endpoint
                 const response = await fetch('/api/transcribe', {
                     method: 'POST',
@@ -174,8 +179,7 @@ export default function RecordingView({ }: any) {
                 {/* )} */}
             </div>
             <div className="mt-4 text-center text-gray-600 w-full mx-auto">
-                <p>Transcript will be below...</p>
-                {transcript}
+                {transcript ? transcript : transcriptState}
 
 
             </div>
