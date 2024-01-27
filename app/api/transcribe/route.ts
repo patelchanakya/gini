@@ -18,7 +18,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     console.log(file_url)
 
     // Make a POST request to the Python backend
-    const response = await fetch('https://patelchanakya--transcription-app-fastapi-app.modal.run/transcribe', {
+    const response = await fetch('https://patelchanakya--newer-app-fastapi-app-dev.modal.run/transcribe', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

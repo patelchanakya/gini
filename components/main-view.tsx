@@ -21,11 +21,9 @@ export default function MainView() {
 
     return (
         <section>
-            <div className=" mb-4 flex flex-col items-center justify-center h-screen w-full overflow-auto">
 
-                {/* <TranscriptionView fileName={fileName} /> */}
-                <RecordingView />
-            </div>
+            <RecordingView />
+
         </section>
 
 

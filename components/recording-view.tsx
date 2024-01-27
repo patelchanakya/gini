@@ -8,7 +8,7 @@ import { createContext, useContext } from 'react';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useCallback } from 'react';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // Create a new context
 export const FileContext = createContext<string | undefined>(undefined);
@@ -23,7 +23,7 @@ export default function RecordingView({ }: any) {
     const [audioChunks, setAudioChunks] = useState<BlobPart[]>([]);
     const [file, setFile] = useState<string | undefined>();
     const [publicUrl, setPublicUrl] = useState<string | undefined>(undefined);
-    const [transcriptState, setTranscriptState] = useState<string>("Transcript will show here...");
+    const [transcriptState, setTranscriptState] = useState<string>("Local & Secure. Transcript will show here.");
 
 
 
@@ -156,40 +156,60 @@ export default function RecordingView({ }: any) {
 
     return (
 
-        <div className="flex flex-col items-center justify-center h-screen w-full">
-            <div className="flex items-center justify-center w-96 h-32">
-                {/* {!emailSubmitted ? (
-                    <div className="flex w-full max-w-sm items-center space-x-2">
-                        <Input ref={emailRef} type="email" placeholder="Email" />
-                        <Button onClick={handleEmailSubmit} type="button">Start</Button>
-                    </div>
-                ) : ( */}
-                <form className='w-full h-full justify-center flex '>
-                    <AudioRecorder
-                        onRecordingComplete={addAudioElement}
-                        audioTrackConstraints={{
-                            noiseSuppression: true,
-                            echoCancellation: true,
-                        }}
-                        downloadOnSavePress={true}
-                        downloadFileExtension="webm"
+        <div className="flex flex-col items-center justify-center min-h-screen w-full">
+            {/* <div className="flex items-center justify-center w-auto md:w-full h-32 "> */}
+            {/* <form className='w-full h-full justify-center flex '> */}
+            <div className="w-full h-full flex items-center justify-center">
+                <AudioRecorder
+                    onRecordingComplete={addAudioElement}
+
+                    audioTrackConstraints={{
+                        noiseSuppression: true,
+                        echoCancellation: true,
+                    }}
+                    onNotAllowedOrFound={(error) => console.error('Error:', error)}
+                    downloadOnSavePress={true}
+                    downloadFileExtension="mp3"
+                    showVisualizer={true}
+
+
+                />
+            </div>
+
+            <div className="mt-5 text-center">
+                <p className="text-md font-semibold text-gray-600">Please start your recording here</p>
+            </div>
+
+            {/* </form> */}
+            {/* )} */}
+            {/* </div> */}
+            {transcript && (
+                <div className="mt-4 text-center text-gray-600 w-full mx-auto">
+                    <textarea
+                        className="form-textarea mt-1 block w-full border rounded-md shadow-sm"
+                        rows={7} // This value will be made responsive
+                        readOnly
+                        value={transcript ? transcript : transcriptState}
+                        cols={50}
+                        form="form_id"
+                        name="transcript"
+                        placeholder="Transcript will appear here..."
+                        required
+                        wrap="soft"
+                        style={{ overflowY: 'scroll' }}
                     />
-                </form>
-                {/* )} */}
-            </div>
-            <div className="mt-4 text-center text-gray-600 w-full mx-auto">
-                {transcript ? transcript : transcriptState}
-
-
-            </div>
+                    <CopyToClipboard text={transcript ? transcript : transcriptState}>
+                        <button onClick={() => alert('Transcript copied to clipboard!')}>Copy Transcript</button>
+                    </CopyToClipboard>
+                </div>
+            )}
+            <br />
             {file && (
                 <div className="mt-5 font-bold text-center text-gray-600 w-full lg:w-1/2 mx-auto">
                     <p>Recording Created: {file}</p>
                 </div>
             )}
         </div>
-
-
     );
 }
 
