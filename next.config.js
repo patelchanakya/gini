@@ -1,9 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
     experimental: {
-
         serverActions: true,
     },
-}
-
-module.exports = nextConfig
+    async rewrites() {
+        return [
+            {
+                source: '/api/transcribe/:path*',
+                destination: 'https://patelchanakya--newer-app-fastapi-app.modal.run/api/transcribe/:path*',
+            },
+        ]
+    },
+};
